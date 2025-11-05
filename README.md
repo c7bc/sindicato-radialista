@@ -207,7 +207,7 @@ O projeto está otimizado para deploy na Vercel:
 2. Configure as variáveis de ambiente (se necessário)
 3. Deploy automático a cada push
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/seu-usuario/sindicato-radialista)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/c7bc/sindicato-radialista)
 
 ### Outras Plataformas
 
