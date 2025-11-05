@@ -66,7 +66,7 @@ O **Sindicato dos Radialistas do Pará** é uma plataforma web institucional des
 
 1. Clone o repositório:
 ```bash
-git clone https://github.com/seu-usuario/sindicato-radialista.git
+git clone https://github.com/c7bc/sindicato-radialista.git
 cd sindicato-radialista
 ```
 
