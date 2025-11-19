@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 interface CategoryArticle {
-  id: string;
+  id: string | number;
   imageUrl: string;
   imageAlt: string;
   date: string;

@@ -1,7 +1,7 @@
 // components/RecentNews.tsx
 
 interface NewsItem {
-  id: string;
+  id: string | number;
   imageUrl: string;
   imageAlt: string;
   category: string;

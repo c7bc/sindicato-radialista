@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 interface CategoryNews {
-  id: string;
+  id: string | number;
   imageUrl: string;
   imageAlt: string;
   date: string;
@@ -19,7 +19,12 @@ interface NewsByCategoryProps {
 
 export default function NewsByCategory({ categories }: NewsByCategoryProps) {
   const categoryNames = Object.keys(categories);
-  const [activeCategory, setActiveCategory] = useState(categoryNames[0]);
+  const [activeCategory, setActiveCategory] = useState(categoryNames[0] || '');
+
+  // Don't render if no categories
+  if (categoryNames.length === 0) {
+    return null;
+  }
 
   const activeCategoryNews = categories[activeCategory] || [];
 

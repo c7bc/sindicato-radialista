@@ -1,7 +1,7 @@
 // components/RecentArticles.tsx
 
 interface Article {
-  id: string;
+  id: string | number;
   imageUrl: string;
   imageAlt: string;
   category: string;

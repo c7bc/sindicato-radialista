@@ -312,7 +312,7 @@ export default function SindicalizeSe() {
             title="Atualize seus dados"
             description="Mantenha seus dados atualizados para receber notificações sobre ações coletivas e outras informações jurídicas importantes."
             primaryButtonText="Atualizar cadastro"
-            onPrimaryClick={() => console.log("Atualizar cadastro")}
+            primaryButtonHref="/contato"
           />
         </div>
       </main>

@@ -2,11 +2,7 @@
 
 import React, { useState } from "react";
 import { NavButton } from "@/components/ui/nav";
-
-interface NavItem {
-  label: string;
-  href: string;
-}
+import type { NavItem } from "@/types/payload";
 
 interface HeaderProps {
   navItems?: NavItem[];
@@ -24,6 +20,10 @@ const defaultNavItems: NavItem[] = [
 
 export default function Header({ navItems = defaultNavItems }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Separate regular links from button items
+  const linkItems = navItems.filter(item => !item.isButton);
+  const buttonItems = navItems.filter(item => item.isButton);
 
   return (
     <header>
@@ -56,7 +56,7 @@ export default function Header({ navItems = defaultNavItems }: HeaderProps) {
             className="hidden lg:flex absolute left-1/2 -translate-x-1/2"
           >
             <ul className="flex items-center gap-8 text-sm">
-              {navItems.map((item, index) => (
+              {linkItems.map((item, index) => (
                 <li key={`${item.href}-${index}`}>
                   <a
                     className="text-primary transition hover:text-brand-600 font-medium"
@@ -69,10 +69,12 @@ export default function Header({ navItems = defaultNavItems }: HeaderProps) {
             </ul>
           </nav>
 
-          {/* Botão Sindicalize-se e menu mobile */}
+          {/* Botões de ação e menu mobile */}
           <div className="flex items-center gap-4">
             <div className="hidden sm:flex sm:gap-4">
-              <NavButton label="SINDICALIZE-SE" href="/sindicalize-se" />
+              {buttonItems.map((item, index) => (
+                <NavButton key={`btn-${item.href}-${index}`} label={item.label} href={item.href} />
+              ))}
             </div>
 
             {/* Hamburger Menu Button */}
@@ -121,7 +123,7 @@ export default function Header({ navItems = defaultNavItems }: HeaderProps) {
           <div className="lg:hidden border-t border-gray-200 py-4">
             <nav aria-label="Mobile">
               <ul className="flex flex-col space-y-3">
-                {navItems.map((item, index) => (
+                {linkItems.map((item, index) => (
                   <li key={`mobile-${item.href}-${index}`}>
                     <a
                       className="block text-primary transition hover:text-brand-600 font-medium py-2"
@@ -132,9 +134,11 @@ export default function Header({ navItems = defaultNavItems }: HeaderProps) {
                     </a>
                   </li>
                 ))}
-                <li className="pt-2 sm:hidden">
-                  <NavButton label="SINDICALIZE-SE" href="/sindicalize-se" />
-                </li>
+                {buttonItems.map((item, index) => (
+                  <li key={`mobile-btn-${item.href}-${index}`} className="pt-2 sm:hidden">
+                    <NavButton label={item.label} href={item.href} />
+                  </li>
+                ))}
               </ul>
             </nav>
           </div>
