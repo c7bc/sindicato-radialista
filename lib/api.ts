@@ -1,4 +1,4 @@
-import { cacheTag } from 'next/cache'
+import { cacheTag, cacheLife } from 'next/cache'
 import type {
   PayloadSite,
   PayloadPost,
@@ -6,6 +6,9 @@ import type {
   PayloadAnnouncementCard,
   PayloadResponse,
   PayloadCategory,
+  PayloadSindicatoPage,
+  PayloadJuridicoPage,
+  PayloadServicosPage,
 } from '@/types/payload'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
@@ -40,6 +43,7 @@ async function fetchAPI<T>(endpoint: string, options?: RequestInit): Promise<T> 
 // Get site data by slug
 export async function getSiteData(): Promise<PayloadSite | null> {
   'use cache'
+  cacheLife('days')
   cacheTag('sites')
 
   try {
@@ -59,6 +63,7 @@ export async function getLatestPosts(
   limit: number = 10
 ): Promise<PayloadPost[]> {
   'use cache'
+  cacheLife('days')
   cacheTag('posts')
 
   try {
@@ -87,6 +92,7 @@ export async function getPostsByCategory(
   limit: number = 6
 ): Promise<PayloadPost[]> {
   'use cache'
+  cacheLife('days')
   cacheTag('posts')
 
   try {
@@ -112,6 +118,7 @@ export async function getPostsByCategory(
 // Get all categories
 export async function getCategories(): Promise<PayloadCategory[]> {
   'use cache'
+  cacheLife('days')
   cacheTag('categories')
 
   try {
@@ -131,6 +138,7 @@ export async function getCTASections(
   page: 'home' | 'sindicato' | 'juridico' | 'servicos'
 ): Promise<PayloadCTASection[]> {
   'use cache'
+  cacheLife('days')
   cacheTag('cta-sections')
 
   try {
@@ -156,6 +164,7 @@ export async function getAnnouncementCards(
   page: 'home' | 'sindicato' | 'juridico' | 'servicos'
 ): Promise<PayloadAnnouncementCard[]> {
   'use cache'
+  cacheLife('days')
   cacheTag('announcement-cards')
 
   try {
@@ -178,6 +187,7 @@ export async function getAnnouncementCards(
 // Get single post by slug
 export async function getPostBySlug(slug: string): Promise<PayloadPost | null> {
   'use cache'
+  cacheLife('days')
   cacheTag('posts')
 
   try {
@@ -193,6 +203,78 @@ export async function getPostBySlug(slug: string): Promise<PayloadPost | null> {
     return response.docs[0] || null
   } catch (error) {
     console.error('Error fetching post by slug:', error)
+    return null
+  }
+}
+
+// Get sindicato page data by site ID
+export async function getSindicatoPageData(
+  siteId: string | number
+): Promise<PayloadSindicatoPage | null> {
+  'use cache'
+  cacheLife('days')
+  cacheTag('sindicato-page')
+
+  try {
+    const params = new URLSearchParams({
+      'where[site][equals]': String(siteId),
+      depth: '2',
+    })
+
+    const response = await fetchAPI<PayloadResponse<PayloadSindicatoPage>>(
+      `/api/sindicato-page?${params}`
+    )
+    return response.docs[0] || null
+  } catch (error) {
+    console.error('Error fetching sindicato page:', error)
+    return null
+  }
+}
+
+// Get juridico page data by site ID
+export async function getJuridicoPageData(
+  siteId: string | number
+): Promise<PayloadJuridicoPage | null> {
+  'use cache'
+  cacheLife('days')
+  cacheTag('juridico-page')
+
+  try {
+    const params = new URLSearchParams({
+      'where[site][equals]': String(siteId),
+      depth: '2',
+    })
+
+    const response = await fetchAPI<PayloadResponse<PayloadJuridicoPage>>(
+      `/api/juridico-page?${params}`
+    )
+    return response.docs[0] || null
+  } catch (error) {
+    console.error('Error fetching juridico page:', error)
+    return null
+  }
+}
+
+// Get servicos page data by site ID
+export async function getServicosPageData(
+  siteId: string | number
+): Promise<PayloadServicosPage | null> {
+  'use cache'
+  cacheLife('days')
+  cacheTag('servicos-page')
+
+  try {
+    const params = new URLSearchParams({
+      'where[site][equals]': String(siteId),
+      depth: '2',
+    })
+
+    const response = await fetchAPI<PayloadResponse<PayloadServicosPage>>(
+      `/api/servicos-page?${params}`
+    )
+    return response.docs[0] || null
+  } catch (error) {
+    console.error('Error fetching servicos page:', error)
     return null
   }
 }

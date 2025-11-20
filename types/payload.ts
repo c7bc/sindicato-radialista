@@ -241,3 +241,148 @@ export interface AnnouncementContent {
   primaryButtonText: string
   primaryButtonHref?: string
 }
+
+// Sindicato Page types
+export interface PayloadLocation {
+  id: string
+  title: string
+  description: string
+  address: unknown // Lexical Rich Text
+  mapUrl: string
+  icon: 'map-pin' | 'building' | 'office'
+}
+
+export interface PayloadTeamMember {
+  id: string
+  name: string
+  role: string
+  image?: PayloadMedia
+  imageAlt?: string
+}
+
+export interface PayloadTeamSection {
+  id: string
+  title: string
+  badge?: string
+  description?: string
+  members: PayloadTeamMember[]
+}
+
+export interface PayloadSindicatoPage {
+  id: string | number
+  locationsSection: {
+    badge?: string
+    title: string
+    description?: string
+    mapEmbedUrl?: string
+    locations: PayloadLocation[]
+  }
+  teamSections: PayloadTeamSection[]
+  site: PayloadSite | string | number
+  createdAt: string
+  updatedAt: string
+}
+
+// Juridico Page types
+export interface PayloadJuridicoContact {
+  id: string
+  icon: 'mail' | 'map-pin' | 'phone'
+  title: string
+  description: string
+  linkText: string
+  linkHref: string
+}
+
+export interface PayloadJuridicoTab {
+  id: string
+  label: string
+  badge?: string
+  content: unknown // Lexical Rich Text
+}
+
+export interface PayloadJuridicoPage {
+  id: string | number
+  contactInfo: {
+    badge?: string
+    title: string
+    description?: string
+    contacts: PayloadJuridicoContact[]
+  }
+  tabs: PayloadJuridicoTab[]
+  site: PayloadSite | string | number
+  createdAt: string
+  updatedAt: string
+}
+
+// Servicos Page types
+export interface PayloadServicosFeature {
+  id: string
+  icon: string
+  title: string
+  description: string
+}
+
+export interface PayloadServicosBenefit {
+  id: string
+  name: string
+  discount: string
+  address?: string
+  phone?: string
+  hours?: string
+  observations?: string
+}
+
+export interface PayloadServicosBenefitCategory {
+  id: string
+  name: string
+  benefits: PayloadServicosBenefit[]
+}
+
+export interface PayloadServicosFacility {
+  id: string
+  badge?: string
+  title: string
+  description?: string
+  image?: PayloadMedia
+  imageAlt?: string
+  priceTable?: Array<{
+    id: string
+    description: string
+    price: string
+  }>
+  generalInfo?: Array<{
+    id: string
+    info: string
+  }>
+  contactInfo?: {
+    hours?: string
+    email?: string
+    phone?: string
+  }
+  regulations?: Array<{
+    id: string
+    rule: string
+  }>
+}
+
+export interface PayloadServicosPage {
+  id: string | number
+  hero: {
+    badge?: string
+    title: string
+    description?: string
+    image?: PayloadMedia
+    imageAlt?: string
+    features?: PayloadServicosFeature[]
+  }
+  benefits: {
+    badge?: string
+    title: string
+    subtitle?: string
+    categories: PayloadServicosBenefitCategory[]
+  }
+  facilities: PayloadServicosFacility[]
+  site: PayloadSite | string | number
+  createdAt: string
+  updatedAt: string
+}

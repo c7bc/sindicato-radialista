@@ -51,7 +51,13 @@ export default function LocationsSection({
             />
           )}
 
-          <ul className="grid w-full grid-cols-1 justify-items-center gap-x-8 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
+          <ul className={`grid w-full justify-items-center gap-x-8 gap-y-10 ${
+            locations.length === 1
+              ? 'grid-cols-1'
+              : locations.length === 2
+                ? 'grid-cols-1 md:grid-cols-2'
+                : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+          }`}>
             {locations.map((location) => (
               <li
                 key={location.id}

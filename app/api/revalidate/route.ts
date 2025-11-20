@@ -6,6 +6,8 @@ interface RevalidateBody {
   operation: 'create' | 'update' | 'delete'
   siteId: string
   timestamp: string
+  id?: string | number
+  slug?: string
 }
 
 export async function POST(request: NextRequest) {
@@ -21,59 +23,69 @@ export async function POST(request: NextRequest) {
     }
 
     const body: RevalidateBody = await request.json()
-    const { collection, operation } = body
+    const { collection, operation, slug } = body
 
     // Revalidate by tag (primary method)
-    // Second parameter is the stale-while-revalidate time
-    revalidateTag(collection, 'max')
+    revalidateTag(collection, 'page')
 
     // Also revalidate specific paths based on collection
     switch (collection) {
       case 'posts':
-        revalidateTag('posts', 'max')
+        revalidateTag('posts', 'page')
         revalidatePath('/')
         revalidatePath('/publicacoes')
+        revalidatePath('/contato')
+        revalidatePath('/sindicalize-se')
+        // Revalidate specific post if slug exists
+        if (slug) {
+          revalidatePath(`/publicacoes/${slug}`)
+        }
         break
 
       case 'sites':
-        revalidateTag('sites', 'max')
+        revalidateTag('sites', 'page')
         revalidatePath('/', 'layout') // Revalidate entire app
         break
 
       case 'sindicato-page':
-        revalidateTag('sindicato-page', 'max')
+        revalidateTag('sindicato-page', 'page')
         revalidatePath('/sindicato')
         break
 
       case 'juridico-page':
-        revalidateTag('juridico-page', 'max')
+        revalidateTag('juridico-page', 'page')
         revalidatePath('/juridico')
         break
 
       case 'servicos-page':
-        revalidateTag('servicos-page', 'max')
+        revalidateTag('servicos-page', 'page')
         revalidatePath('/servicos')
         break
 
       case 'cta-sections':
-        revalidateTag('cta-sections', 'max')
+        revalidateTag('cta-sections', 'page')
         revalidatePath('/')
         revalidatePath('/sindicato')
         revalidatePath('/juridico')
         revalidatePath('/servicos')
+        revalidatePath('/contato')
+        revalidatePath('/newsletter')
+        revalidatePath('/sindicalize-se')
         break
 
       case 'announcement-cards':
-        revalidateTag('announcement-cards', 'max')
+        revalidateTag('announcement-cards', 'page')
         revalidatePath('/')
         revalidatePath('/sindicato')
         revalidatePath('/juridico')
         revalidatePath('/servicos')
+        revalidatePath('/contato')
+        revalidatePath('/newsletter')
+        revalidatePath('/sindicalize-se')
         break
 
       case 'categories':
-        revalidateTag('categories', 'max')
-        revalidatePath('/')
+        revalidateTag('categories', 'page')
         revalidatePath('/publicacoes')
         break
 

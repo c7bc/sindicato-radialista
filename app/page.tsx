@@ -129,7 +129,7 @@ const emptyNewsByCategory: CategorizedContent = {};
 
 export default async function Home() {
   'use cache'
-  cacheLife('hours')
+  cacheLife('days')
   cacheTag('homepage', 'posts', 'sites', 'cta-sections', 'announcement-cards')
 
   // Fetch site data

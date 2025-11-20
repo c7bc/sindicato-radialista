@@ -29,10 +29,6 @@ export default function PublicationsGrid({
   publications,
   categories = [
     { id: "all", label: "Ver todas" },
-    { id: "noticias", label: "Notícias" },
-    { id: "artigos", label: "Artigos" },
-    { id: "revistas", label: "Revistas" },
-    { id: "cartilhas", label: "Cartilhas" },
   ],
   defaultCategory = "all",
   showSorting = true,
@@ -47,13 +43,12 @@ export default function PublicationsGrid({
   let filteredPublications = activeCategory === "all"
     ? publications
     : publications.filter((pub) => {
-        const categoryLower = pub.category.toLowerCase();
-        if (activeCategory === "noticias") return categoryLower === "notícia";
-        if (activeCategory === "artigos") return categoryLower === "artigo";
-        if (activeCategory === "revistas") return categoryLower === "revista";
-        if (activeCategory === "cartilhas")
-          return categoryLower === "cartilha";
-        return false;
+        // Find the category label for the active category id
+        const activeCategoryData = categories.find(cat => cat.id === activeCategory);
+        if (!activeCategoryData) return false;
+
+        // Compare publication category with the category label (case-insensitive)
+        return pub.category.toLowerCase() === activeCategoryData.label.toLowerCase();
       });
 
   // Apply search filter
