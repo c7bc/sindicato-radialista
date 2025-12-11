@@ -19,6 +19,10 @@ const lato = Lato({
 export const metadata: Metadata = {
   title: "Sindicato dos Radialistas do Pará",
   description: "Sindicato dos Radialistas do Pará - Página Inicial",
+  icons: {
+    icon: "/image.png",
+    apple: "/image.png",
+  },
 };
 
 export default function RootLayout({
