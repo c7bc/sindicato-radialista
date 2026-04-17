@@ -100,6 +100,11 @@ export interface PayloadSite {
     }
   }
 
+  slides?: Array<{
+    id: string
+    image: PayloadMedia
+  }>
+
   hero: {
     badge?: string
     badgeText?: string
@@ -171,6 +176,7 @@ export interface NewsItem {
   date: string
   title: string
   link: string
+  excerpt?: string
 }
 
 export interface CategoryNews {
@@ -190,6 +196,12 @@ export interface NavItem {
   label: string
   href: string
   isButton?: boolean
+}
+
+export interface HeroSlide {
+  id: string
+  imageUrl: string
+  imageAlt: string
 }
 
 export interface HeroContent {

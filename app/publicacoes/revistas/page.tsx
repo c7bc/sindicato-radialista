@@ -39,45 +39,25 @@ const defaultNavItems: NavItem[] = [
   { label: 'CONTATO', href: '/contato' },
 ];
 
-const defaultCTAContent: CTAContent = {
-  title: 'Junte-se à luta pelos direitos dos radialistas',
-  description: 'Faça parte do maior sindicato de radialistas do país.',
-  primaryButtonText: 'Quero me sindicalizar',
-  primaryButtonHref: '/sindicalize-se',
-  secondaryButtonText: 'Saiba mais',
-  secondaryButtonHref: '/sindicato',
-  imageUrl: '/category.jpg',
-  imageAlt: 'Radialista trabalhando',
-};
-
-const defaultAnnouncementContent: AnnouncementContent = {
-  imageUrl: '/cta.jpg',
-  imageAlt: 'A voz dos radialistas',
-  title: 'A voz dos radialistas não para!',
-  description: 'Receba notícias direto no seu e-mail.',
-  primaryButtonText: 'Quero receber',
-  primaryButtonHref: '/newsletter',
-};
-
-export default async function PublicacoesPage() {
+export default async function RevistasPage() {
   'use cache';
   cacheLife('days');
-  cacheTag('publicacoes-page', 'posts');
+  cacheTag('revistas-page', 'posts');
 
   const site = await getSiteData();
 
   let navItems: NavItem[] = defaultNavItems;
   let footerContent: FooterContent | undefined;
-  let ctaContent: CTAContent = defaultCTAContent;
-  let announcementContent: AnnouncementContent = defaultAnnouncementContent;
-  let allNewsItems: NewsItem[] = [];
+  let ctaContent: CTAContent | undefined;
+  let announcementContent: AnnouncementContent | undefined;
+  let items: NewsItem[] = [];
 
   if (site) {
     navItems = getNavItems(site);
     footerContent = transformSiteToFooterContent(site);
 
     const posts = await getLatestPosts(site.id, 100);
-    allNewsItems = posts.map(transformPostToNewsItem);
+    items = posts.map(transformPostToNewsItem).filter(n => n.category === 'Revista');
 
     const ctaSections = await getCTASections(site.id, 'sindicato');
     if (ctaSections.length > 0) ctaContent = transformCTAToContent(ctaSections[0]);
@@ -87,8 +67,7 @@ export default async function PublicacoesPage() {
   }
 
   const socialLinks = footerContent?.socialLinks || {};
-  const latestNewsTitles = allNewsItems.slice(0, 8).map(n => ({ title: n.title, href: n.link }));
-  const categoriesList = Array.from(new Set(allNewsItems.map(n => n.category))).filter(Boolean);
+  const latestNewsTitles = items.slice(0, 8).map(n => ({ title: n.title, href: n.link }));
 
   return (
     <div className="bg-white">
@@ -96,30 +75,34 @@ export default async function PublicacoesPage() {
         logo={site?.header?.logo}
         logoAlt={site?.header?.logoAlt} />
 
-      <Breadcrumb items={[{ label: 'Home', href: '/' }, { label: 'Publicações' }]} />
+      <Breadcrumb items={[
+        { label: 'Home', href: '/' },
+        { label: 'Publicações', href: '/publicacoes' },
+        { label: 'Revistas' },
+      ]} />
 
       <div className="mx-auto max-w-7xl px-6 py-8">
         <div className="flex flex-col lg:flex-row lg:items-start gap-8">
           <div className="lg:w-2/3">
             <PageTitle
-              title="Publicações"
-              description="Notícias, artigos, revistas e cartilhas publicadas pelo sindicato."
+              title="Revistas"
+              description="Edições da revista do sindicato com matérias completas sobre a categoria."
             />
 
-            <PublicationsGridV2
-              publications={allNewsItems}
-              categories={categoriesList}
-              itemsPerPage={8}
-              showSearch={true}
-              showFilters={true}
-            />
+            {items.length > 0 ? (
+              <PublicationsGridV2 publications={items} itemsPerPage={8} showFilters={false} />
+            ) : (
+              <div className="border border-gray-200 p-6 text-center text-sm text-gray-500">
+                Nenhuma revista publicada ainda.
+              </div>
+            )}
           </div>
 
           <aside className="lg:w-1/3">
             <Sidebar
               ctaContent={ctaContent}
               announcementContent={announcementContent}
-              recentPosts={allNewsItems.slice(0, 5)}
+              recentPosts={items.slice(0, 5)}
             />
           </aside>
         </div>

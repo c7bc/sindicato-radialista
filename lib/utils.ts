@@ -9,6 +9,7 @@ import type {
   CategoryNews,
   CategorizedContent,
   HeroContent,
+  HeroSlide,
   FooterContent,
   CTAContent,
   AnnouncementContent,
@@ -64,8 +65,27 @@ export function getCategoryName(post: PayloadPost): string {
   return (category as PayloadCategory).title
 }
 
+// Extract plain text from Lexical rich text content
+function extractTextFromLexical(content: unknown): string {
+  if (!content || typeof content !== 'object') return ''
+  const root = (content as { root?: { children?: unknown[] } }).root
+  if (!root?.children) return ''
+  const texts: string[] = []
+  function walk(nodes: unknown[]) {
+    for (const node of nodes) {
+      if (typeof node !== 'object' || !node) continue
+      const n = node as { text?: string; children?: unknown[] }
+      if (n.text) texts.push(n.text)
+      if (n.children) walk(n.children)
+    }
+  }
+  walk(root.children)
+  return texts.join(' ')
+}
+
 // Transform PayloadPost to NewsItem for frontend components
 export function transformPostToNewsItem(post: PayloadPost): NewsItem {
+  const fullText = extractTextFromLexical(post.content)
   return {
     id: post.id,
     imageUrl: getImageUrl(post.heroImage, 'medium'),
@@ -74,6 +94,7 @@ export function transformPostToNewsItem(post: PayloadPost): NewsItem {
     date: formatDate(post.publishedAt || post.createdAt),
     title: post.title,
     link: `/publicacoes/${post.slug}`,
+    excerpt: fullText.length > 200 ? fullText.slice(0, 200) + '…' : fullText,
   }
 }
 
@@ -181,6 +202,16 @@ export function transformAnnouncementToContent(
     primaryButtonText: announcement.primaryButtonText || 'Saiba mais',
     primaryButtonHref: announcement.primaryButtonHref,
   }
+}
+
+// Transform site slides to HeroSlide array for carousel
+export function transformSiteToSlides(site: PayloadSite): HeroSlide[] {
+  if (!site.slides || site.slides.length === 0) return []
+  return site.slides.map(slide => ({
+    id: slide.id,
+    imageUrl: getImageUrl(slide.image, 'xlarge'),
+    imageAlt: slide.image?.alt || 'Banner',
+  }))
 }
 
 // Get navigation items from site
