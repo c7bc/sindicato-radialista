@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 
+// rebuild trigger
 const nextConfig: NextConfig = {
   cacheComponents: true,
   images: {
