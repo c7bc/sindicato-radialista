@@ -19,6 +19,16 @@ import type {
 // API URL for building absolute image URLs
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
 
+// Vercel Blob public URL — usado para servir imagens diretamente, sem depender do rewrite no backend
+const BLOB_BASE_URL = process.env.NEXT_PUBLIC_BLOB_URL || 'https://t5nhsatjphczs4ej.public.blob.vercel-storage.com'
+
+// Transforma /api/media/file/<filename> em URL direta do Vercel Blob
+function mediaPathToBlobUrl(relativeUrl: string): string | null {
+  const match = relativeUrl.match(/^\/api\/media\/file\/(.+)$/)
+  if (!match) return null
+  return `${BLOB_BASE_URL}/media/${match[1]}`
+}
+
 // Format ISO date to Portuguese format (e.g., "3 de novembro de 2025")
 export function formatDate(isoDate: string): string {
   const date = new Date(isoDate)
@@ -50,6 +60,10 @@ export function getImageUrl(
   if (relativeUrl.startsWith('http')) {
     return relativeUrl
   }
+
+  // Se for uma URL de media do Payload, aponta direto pro Vercel Blob
+  const blobUrl = mediaPathToBlobUrl(relativeUrl)
+  if (blobUrl) return blobUrl
 
   // Build absolute URL from API_URL
   return `${API_URL}${relativeUrl}`
