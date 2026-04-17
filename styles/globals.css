@@ -60,14 +60,14 @@ input[type="search"]::-webkit-search-cancel-button {
     -webkit-appearance: none;
 }
 
-/* Font family settings: Lato for paragraphs, Baskervville for everything else */
+/* Títulos e elementos destacados: Merriweather (serifada editorial).
+   Corpo e UI: Inter (sans-serif moderna). */
 * {
-    font-family: var(--font-baskervville);
+    font-family: var(--font-lato);
 }
 
-p,
-p * {
-    font-family: var(--font-lato);
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-baskervville);
 }
 
 /* News ticker animation */
