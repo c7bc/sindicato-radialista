@@ -38,9 +38,24 @@ export default function SindicalizacaoFormV2({ siteId }: SindicalizacaoFormV2Pro
   })
   const [signature, setSignature] = useState<string | null>(null)
   const [declaracaoLida, setDeclaracaoLida] = useState(false)
+  const [ctpsFile, setCtpsFile] = useState<File | null>(null)
+  const [contrachequeFile, setContrachequeFile] = useState<File | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
+
+  async function uploadMedia(file: File): Promise<number> {
+    const fd = new FormData()
+    fd.append('file', file)
+    fd.append('_payload', JSON.stringify({ alt: file.name }))
+    const resp = await fetch(`${API_URL}/api/media`, { method: 'POST', body: fd })
+    if (!resp.ok) {
+      const errorData = await resp.json().catch(() => ({}))
+      throw new Error(errorData.errors?.[0]?.message || 'Erro ao enviar arquivo')
+    }
+    const data = await resp.json()
+    return data.doc?.id ?? data.id
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -61,6 +76,10 @@ export default function SindicalizacaoFormV2({ siteId }: SindicalizacaoFormV2Pro
       setError('Por favor, assine o formulário antes de enviar.')
       return
     }
+    if (!contrachequeFile) {
+      setError('O envio do contracheque é obrigatório.')
+      return
+    }
     if (!declaracaoLida) {
       setError('Você precisa aceitar os termos para se sindicalizar.')
       return
@@ -69,6 +88,15 @@ export default function SindicalizacaoFormV2({ siteId }: SindicalizacaoFormV2Pro
     setIsSubmitting(true)
 
     try {
+      // Upload obrigatório do contracheque
+      const contrachequeId = await uploadMedia(contrachequeFile)
+
+      // Upload opcional da CTPS
+      let ctpsDigitalId: number | null = null
+      if (ctpsFile) {
+        ctpsDigitalId = await uploadMedia(ctpsFile)
+      }
+
       const response = await fetch(`${API_URL}/api/sindicalize-submissions`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -76,6 +104,8 @@ export default function SindicalizacaoFormV2({ siteId }: SindicalizacaoFormV2Pro
           ...formData,
           assinaturaDigital: signature,
           declaracaoLida: true,
+          contracheque: contrachequeId,
+          ...(ctpsDigitalId ? { ctpsDigital: ctpsDigitalId } : {}),
           site: Number(siteId),
         }),
       })
@@ -97,6 +127,8 @@ export default function SindicalizacaoFormV2({ siteId }: SindicalizacaoFormV2Pro
       })
       setSignature(null)
       setDeclaracaoLida(false)
+      setCtpsFile(null)
+      setContrachequeFile(null)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Erro ao enviar solicitação')
     } finally {
@@ -153,6 +185,32 @@ export default function SindicalizacaoFormV2({ siteId }: SindicalizacaoFormV2Pro
         <div>
           <label htmlFor="cargoFuncao" className={labelClass}>Cargo / Função *</label>
           <input type="text" id="cargoFuncao" name="cargoFuncao" value={formData.cargoFuncao} onChange={handleChange} required className={inputClass} />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label htmlFor="ctpsDigital" className={labelClass}>CTPS Digital (opcional)</label>
+          <input
+            type="file"
+            id="ctpsDigital"
+            accept="application/pdf,image/*"
+            onChange={(e) => setCtpsFile(e.target.files?.[0] ?? null)}
+            className="w-full text-sm text-gray-700 file:mr-3 file:px-3 file:py-2 file:border-0 file:bg-brand-600 file:text-white file:text-xs file:font-semibold file:uppercase file:cursor-pointer hover:file:bg-brand-700 border border-gray-200 bg-[#f2f2f2]"
+          />
+          <p className="mt-1 text-[11px] text-gray-500">PDF ou imagem. Envio opcional.</p>
+        </div>
+        <div>
+          <label htmlFor="contracheque" className={labelClass}>Contracheque *</label>
+          <input
+            type="file"
+            id="contracheque"
+            accept="application/pdf,image/*"
+            onChange={(e) => setContrachequeFile(e.target.files?.[0] ?? null)}
+            required
+            className="w-full text-sm text-gray-700 file:mr-3 file:px-3 file:py-2 file:border-0 file:bg-brand-600 file:text-white file:text-xs file:font-semibold file:uppercase file:cursor-pointer hover:file:bg-brand-700 border border-gray-200 bg-[#f2f2f2]"
+          />
+          <p className="mt-1 text-[11px] text-gray-500">PDF ou imagem. Envio obrigatório.</p>
         </div>
       </div>
 

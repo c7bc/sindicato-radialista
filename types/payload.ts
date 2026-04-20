@@ -154,6 +154,21 @@ export interface PayloadAnnouncementCard {
   updatedAt: string
 }
 
+// ACT / CCT type
+export interface PayloadActCct {
+  id: string | number
+  type: 'ACT' | 'CCT'
+  title: string
+  year: number
+  company?: string
+  description?: string
+  file?: PayloadMedia
+  publishedAt?: string
+  site: PayloadSite | string | number
+  createdAt: string
+  updatedAt: string
+}
+
 // API Response types
 export interface PayloadResponse<T> {
   docs: T[]

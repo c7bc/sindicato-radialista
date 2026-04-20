@@ -60,14 +60,9 @@ input[type="search"]::-webkit-search-cancel-button {
     -webkit-appearance: none;
 }
 
-/* Títulos e elementos destacados: Merriweather (serifada editorial).
-   Corpo e UI: Inter (sans-serif moderna). */
+/* Fonte única: Roboto em todos os elementos, variando pesos */
 * {
-    font-family: var(--font-lato);
-}
-
-h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-baskervville);
+    font-family: var(--font-roboto), system-ui, -apple-system, sans-serif;
 }
 
 /* News ticker animation */

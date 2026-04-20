@@ -40,8 +40,8 @@ export default function Footer({ content, navItems, contact }: FooterProps) {
       {/* Contact info */}
       <div className="mx-auto max-w-7xl px-6 py-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Sede */}
-          <div>
+          {/* Sede — esquerda */}
+          <div className="md:text-left">
             <h4 className="text-sm font-bold uppercase mb-3 text-white">Sede Principal</h4>
             <div className="text-sm text-gray-400 space-y-2">
               {contact?.address && (
@@ -60,12 +60,12 @@ export default function Footer({ content, navItems, contact }: FooterProps) {
             </div>
           </div>
 
-          {/* Contact */}
-          <div>
+          {/* Contact — centro */}
+          <div className="md:text-center md:flex md:flex-col md:items-center">
             <h4 className="text-sm font-bold uppercase mb-3 text-white">Contato</h4>
             <div className="text-sm text-gray-400 space-y-2">
               {contact?.phone && (
-                <p className="flex items-start gap-2">
+                <p className="flex items-start gap-2 md:justify-center">
                   <svg className="size-4 mt-0.5 shrink-0 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
                   <span>{contact.phone}</span>
                 </p>
