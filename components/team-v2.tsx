@@ -13,7 +13,7 @@ export default function TeamV2({ sections }: TeamV2Props) {
       {sections.map((section) => (
         <section key={section.id} className="mb-8">
           <div className="border-b-2 border-brand-600 mb-4">
-            <h2 className="text-lg font-bold uppercase text-gray-900 pb-2">
+            <h2 className="text-lg font-semibold uppercase text-gray-700 tracking-wide pb-2">
               {section.title}
               {section.badge && (
                 <span className="ml-3 text-[10px] bg-brand-600/10 text-brand-600 px-2 py-0.5 align-middle">

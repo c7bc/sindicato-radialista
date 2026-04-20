@@ -32,7 +32,7 @@ export default function ActsCctsList({ items, emptyMessage }: ActsCctsListProps)
       {years.map((year) => (
         <section key={year}>
           <div className="border-b-2 border-brand-600 mb-3">
-            <h2 className="text-lg font-bold uppercase text-gray-900 pb-2">{year}</h2>
+            <h2 className="text-lg font-semibold uppercase text-gray-700 tracking-wide pb-2">{year}</h2>
           </div>
           <ul className="divide-y divide-gray-200 border border-gray-200">
             {byYear[year].map((item) => (

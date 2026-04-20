@@ -34,7 +34,7 @@ export default function LocationsV2({ title, description, mapEmbedUrl, locations
     <section className="mb-8">
       {title && (
         <div className="border-b-2 border-brand-600 mb-4">
-          <h2 className="text-lg font-bold uppercase text-gray-900 pb-2">{title}</h2>
+          <h2 className="text-lg font-semibold uppercase text-gray-700 tracking-wide pb-2">{title}</h2>
         </div>
       )}
       {description && <p className="mb-4 text-sm text-gray-600">{description}</p>}

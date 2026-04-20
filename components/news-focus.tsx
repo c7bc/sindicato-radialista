@@ -34,7 +34,7 @@ export default function NewsFocus({ title, tabs, news }: NewsFocusProps) {
     <section className="bg-white border-b border-gray-100 pb-8">
         {/* Section header with tabs */}
         <div className="flex items-center gap-6 border-b-2 border-brand-600 pb-0 mb-6">
-          <h2 className="text-lg font-bold text-brand-600 uppercase pb-2">{title}</h2>
+          <h2 className="text-lg font-semibold text-brand-600 uppercase pb-2 tracking-wide">{title}</h2>
           {tabLabels.length > 1 && (
             <ul className="flex gap-1">
               {tabLabels.map((tab) => (

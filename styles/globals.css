@@ -65,11 +65,10 @@ input[type="search"]::-webkit-search-cancel-button {
     font-family: var(--font-roboto), system-ui, -apple-system, sans-serif;
 }
 
-/* Títulos: peso médio (500) e cor suave (gray-700) por padrão.
-   Usa tracking ligeiramente aberto pra dar respiro aos caps em headings uppercase. */
+/* Títulos: peso médio por padrão — cor fica a cargo do componente pra preservar
+   contraste em cards sobre imagem/gradiente. */
 h1, h2, h3, h4, h5, h6 {
     font-weight: 500;
-    color: rgb(55 65 81);
     letter-spacing: -0.01em;
 }
 

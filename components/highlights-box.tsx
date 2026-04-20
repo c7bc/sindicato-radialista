@@ -30,7 +30,7 @@ export default function HighlightsBox({ categories }: HighlightsBoxProps) {
               <div className="border-b-2 border-brand-600 mb-4">
                 <a
                   href={cat.href}
-                  className="inline-block text-sm font-bold uppercase text-gray-900 pb-2 hover:text-brand-600 transition"
+                  className="inline-block text-sm font-semibold uppercase text-gray-700 pb-2 hover:text-brand-600 transition tracking-wide"
                 >
                   {cat.name}
                 </a>

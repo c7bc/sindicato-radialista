@@ -63,7 +63,7 @@ export default function Sidebar({ ctaContent, announcementContent, recentPosts =
       {recentPosts.length > 0 && (
         <div className="bg-white border border-gray-200">
           <div className="border-b-2 border-brand-600 px-4 py-2">
-            <h3 className="text-sm font-bold uppercase text-gray-900">Recentes</h3>
+            <h3 className="text-sm font-semibold uppercase text-gray-700 tracking-wide">Recentes</h3>
           </div>
           <ul className="divide-y divide-gray-100">
             {recentPosts.map((post, idx) => (
