@@ -22,7 +22,7 @@ export default function Sidebar({ ctaContent, announcementContent, recentPosts =
             </a>
           )}
           <div className="p-4">
-            <h3 className="text-sm font-bold text-gray-900">{ctaContent.title}</h3>
+            <h3 className="text-sm font-medium text-gray-800 leading-snug">{ctaContent.title}</h3>
             <p className="mt-1 text-xs text-gray-500 line-clamp-3">{ctaContent.description}</p>
             <a
               href={ctaContent.primaryButtonHref}
@@ -47,7 +47,7 @@ export default function Sidebar({ ctaContent, announcementContent, recentPosts =
             </a>
           )}
           <div className="p-4">
-            <h3 className="text-sm font-bold text-gray-900">{announcementContent.title}</h3>
+            <h3 className="text-sm font-medium text-gray-800 leading-snug">{announcementContent.title}</h3>
             <p className="mt-1 text-xs text-gray-500 line-clamp-2">{announcementContent.description}</p>
             <a
               href={announcementContent.primaryButtonHref || '#'}
