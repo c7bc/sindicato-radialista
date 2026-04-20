@@ -1,18 +1,18 @@
 import type { Metadata } from "next";
-import { Inter, Merriweather } from "next/font/google";
+import { Poppins, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 
-// Títulos e elementos destacados — serifada editorial
-const merriweather = Merriweather({
+// Títulos — serifada elegante editorial
+const playfair = Playfair_Display({
   subsets: ["latin"],
-  weight: ["300", "400", "700", "900"],
+  weight: ["400", "500", "600", "700", "800", "900"],
   variable: "--font-baskervville",
 });
 
-// Corpo e UI — sans-serif moderna e super legível
-const inter = Inter({
+// Corpo e UI — geométrica moderna
+const poppins = Poppins({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800"],
   variable: "--font-lato",
@@ -34,7 +34,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${merriweather.variable} ${inter.variable} font-sans antialiased`}>
+      <body className={`${playfair.variable} ${poppins.variable} font-sans antialiased`}>
         {children}
         <SpeedInsights />
         <Analytics />
