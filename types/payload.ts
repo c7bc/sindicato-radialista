@@ -154,6 +154,39 @@ export interface PayloadAnnouncementCard {
   updatedAt: string
 }
 
+// Denúncia (canal de denúncias)
+export type DenunciaCategoria =
+  | 'assedio-moral'
+  | 'assedio-sexual'
+  | 'discriminacao'
+  | 'irregularidade-trabalhista'
+  | 'outra'
+
+export type DenunciaStatus =
+  | 'recebida'
+  | 'em-analise'
+  | 'encaminhada'
+  | 'resolvida'
+  | 'arquivada'
+
+export interface PayloadDenuncia {
+  id: string | number
+  protocolo: string
+  categoria: DenunciaCategoria
+  descricao: string
+  anonimo: boolean
+  nome?: string
+  email?: string
+  telefone?: string
+  empresa?: string
+  anexo?: PayloadMedia
+  status: DenunciaStatus
+  notaInterna?: string
+  site: PayloadSite | string | number
+  createdAt: string
+  updatedAt: string
+}
+
 // ACT / CCT type
 export interface PayloadActCct {
   id: string | number
