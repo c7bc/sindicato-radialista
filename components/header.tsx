@@ -3,20 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import type { NavItem, PayloadMedia } from "@/types/payload";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
-const BLOB_BASE_URL = process.env.NEXT_PUBLIC_BLOB_URL || 'https://t5nhsatjphczs4ej.public.blob.vercel-storage.com';
-
-function resolveLogoUrl(logo?: PayloadMedia | null): string | undefined {
-  if (!logo) return undefined;
-  const url = logo.url;
-  if (!url) return undefined;
-  if (url.startsWith('http')) return url;
-  // Transforma /api/media/file/<filename> em URL direta do blob
-  const match = url.match(/^\/api\/media\/file\/(.+)$/);
-  if (match) return `${BLOB_BASE_URL}/media/${match[1]}`;
-  return `${API_URL}${url}`;
-}
+import { resolveMediaUrl } from "@/lib/resolve-media-url";
 
 interface HeaderProps {
   navItems?: NavItem[];
@@ -49,7 +36,7 @@ export default function Header({
   logoAlt,
 }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const logoUrl = resolveLogoUrl(logo);
+  const logoUrl = resolveMediaUrl(logo);
 
   // Renderiza todos os itens na nav (botões e links juntos, no estilo bancariospa)
   const linkItems = navItems;

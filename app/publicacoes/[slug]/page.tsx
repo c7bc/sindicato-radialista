@@ -187,7 +187,7 @@ export default async function PublicationPage({ params }: { params: Promise<{ sl
 
             {/* Post content */}
             <div
-              className="mt-8 prose prose-gray max-w-none prose-headings:text-gray-900 prose-headings:font-bold prose-p:text-gray-600 prose-p:leading-relaxed prose-a:text-brand-600 prose-img:rounded"
+              className="mt-8 prose prose-gray max-w-none prose-headings:text-gray-900 prose-headings:font-bold prose-p:text-gray-600 prose-p:leading-relaxed prose-a:text-brand-600 prose-img:rounded-lg prose-img:shadow-md prose-figure:my-6 [&_iframe]:w-full [&_iframe]:rounded-lg"
               dangerouslySetInnerHTML={{ __html: contentHtml }}
             />
 
