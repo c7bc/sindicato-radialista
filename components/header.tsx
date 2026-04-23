@@ -122,13 +122,13 @@ export default function Header({
         <div className="mx-auto max-w-7xl px-6 py-6 flex items-center min-h-[100px]">
           <a href="/" className="flex items-center gap-3">
             {logoUrl ? (
-              <img src={logoUrl} alt={logoAlt || "Logo Sindicato dos Radialistas"} className="h-20 w-auto" />
+              <img src={logoUrl} alt={logoAlt || "Logo Sindicato dos Radialistas do Pará"} className="h-20 w-auto" />
             ) : (
-              <Image src="/image.png" alt="Logo Sindicato dos Radialistas" width={80} height={80} />
+              <Image src="/image.png" alt="Logo Sindicato dos Radialistas do Pará" width={80} height={80} />
             )}
             <div className="flex flex-col font-semibold text-brand-800 text-lg leading-tight">
               <span>SINDICATO DOS</span>
-              <span>RADIALISTAS</span>
+              <span>RADIALISTAS DO PARÁ</span>
             </div>
           </a>
         </div>
